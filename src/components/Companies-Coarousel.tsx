@@ -10,7 +10,7 @@ const logos = [Company1, Company2, Company3, Company4, Company5, Company6];
 export function CompaniesCarousel() {
   return (
     <div className="relative overflow-hidden py-6">
-      <div className="flex w-max animate-infinite-scroll">
+      <div className="flex w-max animate-infinite-scroll whitespace-nowrap">
         {[...logos, ...logos].map((logo, index) => (
           <div key={index} className="mx-8 flex-shrink-0">
             <img

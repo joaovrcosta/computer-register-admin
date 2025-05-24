@@ -1,6 +1,7 @@
 import { CompaniesCarousel } from "@/components/Companies-Coarousel";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export default function LandingPage() {
   return (
@@ -19,9 +20,9 @@ export default function LandingPage() {
             global do seu cenário de tecnologia!
           </p>
           <div className="flex gap-4 mt-6">
-            <Button variant="primary" className="px-8 py-6 font-bold">
-              Testar Grátis
-            </Button>
+            <Link to="/dashboard">
+              <Button className="px-8 py-6 font-bold">Testar Grátis</Button>
+            </Link>
             <Button variant="secondary" className="px-8 py-6 text-primary">
               Como funciona?
             </Button>
