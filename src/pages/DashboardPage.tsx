@@ -1,7 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { DataTable } from "@/components/tables/device-table/data-table";
 import { columns } from "@/components/tables/device-table/columns";
-import { payments } from "@/components/tables/device-table/data";
 
 import {
   Breadcrumb,
@@ -18,7 +17,16 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { AddNewDeviceModal } from "@/components/modals/add-new-device";
+import { usePayments } from "@/hooks/use-payments";
+
 export default function Page() {
+  const { payments, loading, error } = usePayments();
+
+  if (loading) return <p>Carregando pagamentos...</p>;
+  if (error) return <p>Erro: {error.message}</p>;
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -42,10 +50,7 @@ export default function Page() {
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <div className="grid auto-rows-min gap-4 md:grid-cols-1">
-            <div className="flex gap-3">
-              <Button className="text-white">Adicionar</Button>
-              <Button className="text-white">Remover</Button>
-            </div>
+            <div className="flex gap-3"></div>
             <DataTable columns={columns} data={payments} />
           </div>
           <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
