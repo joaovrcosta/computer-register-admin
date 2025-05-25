@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export default function LandingPage() {
   return (
-    <>
+    <div className="bg-white h-full">
       <Header />
       <div className="w-full flex flex-col items-center justify-center">
         <div className="max-w-[1580px] flex flex-col items-center justify-center">
@@ -21,9 +21,14 @@ export default function LandingPage() {
           </p>
           <div className="flex gap-4 mt-6">
             <Link to="/dashboard">
-              <Button className="px-8 py-6 font-bold">Testar Grátis</Button>
+              <Button variant="callToAction" className="px-8 py-6 font-bold">
+                Testar Grátis
+              </Button>
             </Link>
-            <Button variant="secondary" className="px-8 py-6 text-primary">
+            <Button
+              variant="callToAction"
+              className="px-8 py-6 text-primary bg-white border border-primary"
+            >
               Como funciona?
             </Button>
           </div>
@@ -34,6 +39,6 @@ export default function LandingPage() {
           <CompaniesCarousel />
         </div>
       </div>
-    </>
+    </div>
   );
 }

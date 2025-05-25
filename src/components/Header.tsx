@@ -1,6 +1,7 @@
 import magmaLogo from "@/assets/logo-magma.png";
 import { Button } from "./ui/button";
 import { NavigationMenuComponent } from "./Navigation-Menu";
+import { Link } from "react-router-dom";
 
 export function Header() {
   return (
@@ -26,9 +27,11 @@ export function Header() {
             <NavigationMenuComponent />
           </div>
           <div>
-            <Button className="py-6 px-12 text-sm" variant="primary">
-              Testar grátis
-            </Button>
+            <Link to="/dashboard">
+              <Button className="py-6 px-12 text-sm" variant="callToAction">
+                Testar grátis
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
