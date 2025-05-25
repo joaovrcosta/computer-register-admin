@@ -35,5 +35,4 @@ export const payments: Payment[] = [
     status: "processing",
     email: "example@gmail.com",
   },
-  // ...
 ];

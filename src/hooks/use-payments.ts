@@ -29,6 +29,17 @@ export function usePayments() {
     });
   }
 
+  async function getPaymentById(id: string): Promise<Payment | null> {
+    try {
+      const res = await fetch(`http://localhost:3001/payments/${id}`);
+      if (!res.ok) throw new Error("Erro ao buscar pagamento com ID: " + id);
+      return await res.json();
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+
   function deletePayments(id: string) {
     return fetch(`http://localhost:3001/payments/${id}`, {
       method: "DELETE",
@@ -37,5 +48,40 @@ export function usePayments() {
     });
   }
 
-  return { payments, loading, error, addPayment, deletePayments };
+  async function updatePayment(updatedPayment: Payment): Promise<void> {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/payments/${updatedPayment.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedPayment),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error(
+          "Erro ao atualizar pagamento com ID: " + updatedPayment.id
+        );
+      }
+
+      setPayments((prevPayments) =>
+        prevPayments.map((payment) =>
+          payment.id === updatedPayment.id ? updatedPayment : payment
+        )
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  return {
+    payments,
+    loading,
+    error,
+    addPayment,
+    deletePayments,
+    getPaymentById,
+    updatePayment,
+  };
 }

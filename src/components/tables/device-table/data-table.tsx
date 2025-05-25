@@ -13,30 +13,36 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import React from "react";
 import { usePayments } from "@/hooks/use-payments";
 import { Button } from "@/components/ui/button";
 import { Plus, Trash } from "lucide-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { AddNewDeviceModal } from "@/components/modals/add-new-device";
+import { ViewDeviceModal } from "@/components/modals/view-device";
+import type { Payment } from "@/types/types";
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends Payment, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData extends { id: string }, TValue>({
+export function DataTable<TData extends Payment, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const { deletePayments, loading, error } = usePayments();
+  const { deletePayments, getPaymentById, loading, error } = usePayments();
+
+  const [selectedRowData, setSelectedRowData] = React.useState<TData | null>(
+    null
+  );
+  const [viewModalOpen, setViewModalOpen] = React.useState(false);
 
   const [tableData, setTableData] = React.useState(data);
   const [rowSelection, setRowSelection] = React.useState<{
     [key: string]: boolean;
   }>({});
-
-  console.log(rowSelection);
 
   const table = useReactTable({
     data: tableData,
@@ -48,6 +54,17 @@ export function DataTable<TData extends { id: string }, TValue>({
     },
   });
 
+  async function handleRowDoubleClick(rowData: TData) {
+    const latestData = await getPaymentById(rowData.id);
+
+    if (latestData) {
+      setSelectedRowData(latestData as TData);
+      setViewModalOpen(true);
+    } else {
+      console.error("Erro ao buscar os dados da linha");
+    }
+  }
+
   function handleDeleteSelected() {
     const selectedRowIndexes = Object.keys(rowSelection)
       .filter((key) => rowSelection[key])
@@ -57,7 +74,6 @@ export function DataTable<TData extends { id: string }, TValue>({
       (index) => table.getRowModel().rows[index]?.original.id
     );
 
-    // Deleta do servidor e do estado local
     Promise.all(selectedIds.map((id) => deletePayments(id)))
       .then(() => {
         setTableData((prev) =>
@@ -72,11 +88,19 @@ export function DataTable<TData extends { id: string }, TValue>({
 
   return (
     <div>
+      {selectedRowData && (
+        <ViewDeviceModal
+          open={viewModalOpen}
+          onOpenChange={setViewModalOpen}
+          data={selectedRowData}
+        />
+      )}
+
       <div className="flex items-center gap-3 mb-4">
         <Dialog>
           <DialogTrigger>
             <Button className="text-white">
-              <Plus />
+              <Plus className="mr-2 h-4 w-4" />
               Adicionar
             </Button>
           </DialogTrigger>
@@ -89,7 +113,7 @@ export function DataTable<TData extends { id: string }, TValue>({
             disabled={loading}
             title={loading ? "Excluindo..." : "Excluir selecionados"}
           >
-            <Trash />
+            <Trash className="mr-2 h-4 w-4" />
             Excluir selecionados
           </Button>
         )}
@@ -125,6 +149,7 @@ export function DataTable<TData extends { id: string }, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onDoubleClick={() => handleRowDoubleClick(row.original)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
