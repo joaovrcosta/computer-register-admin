@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/sidebar";
 import { usePayments } from "@/hooks/use-payments";
 
+import { motion } from "framer-motion"; // <-- Import framer-motion
+
 export default function Page() {
   const { payments, loading, error } = usePayments();
 
@@ -50,13 +52,29 @@ export default function Page() {
               </Breadcrumb>
             </div>
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+
+          {/* Animate this div with framer-motion */}
+          <motion.div
+            className="flex flex-1 flex-col gap-4 p-4 pt-0"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
             <div className="grid auto-rows-min gap-4 md:grid-cols-1">
               <div className="flex gap-3"></div>
-              <DataTable columns={columns} data={payments} />
+
+              {/* You can animate the table separately if prefer */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <DataTable columns={columns} data={payments} />
+              </motion.div>
             </div>
+
             <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-          </div>
+          </motion.div>
         </SidebarInset>
       </SidebarProvider>
     </div>
