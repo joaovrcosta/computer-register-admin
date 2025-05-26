@@ -25,9 +25,9 @@ import {
 
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: "João Victor",
+    email: "joao@magma3.com",
+    avatar: "https://avatars.githubusercontent.com/u/70654718?v=4",
   },
   teams: [
     {

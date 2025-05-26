@@ -39,6 +39,34 @@ export default function LandingPage() {
           <CompaniesCarousel />
         </div>
       </div>
+      <div className="flex items-center justify-center flex-col mt-20">
+        <div className="flex items-center justify-center flex-col w-full">
+          <h3 className="text-terciary text-[42px] font-bold">
+            <span className="text-primary font-normal">Nós Ouvimos,</span> Você
+            Prospera.
+          </h3>
+          <p className="text-blueDark font-semibold max-w-[716px] text-center">
+            Unimos Pessoas + Soluções tecnológicas e facilitamos processos.
+            Desenvolvemos produtos que se adequam a necessidade do seu negócio.
+          </p>
+        </div>
+        <div className="uppercase font-bold flex items-center justify-center text-blueDark w-full p-12">
+          <div className="max-w-[1580px] flex gap-24 p-16">
+            <div className="flex items-center justify-center flex-col">
+              <p className="text-[50px]">+3.6k</p>
+              <p className="text-primary">Usúarios</p>
+            </div>
+            <div className="flex items-center justify-center flex-col">
+              <p className="text-[50px]">+500k</p>
+              <p className="text-primary">Ativos Gerenciados</p>
+            </div>
+            <div className="flex items-center justify-center flex-col">
+              <p className="text-[50px]">+300</p>
+              <p className="text-primary">Clientes</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
